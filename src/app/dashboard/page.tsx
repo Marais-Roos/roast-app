@@ -11,9 +11,9 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-roast-cream p-8">
+    <main className="min-h-screen bg-roast-sage p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="font-serif text-5xl text-roast-red mb-4">
+        <h1 className="font-headings text-5xl text-roast-red mb-4 font-black">
           Welcome to Your Dashboard! 🎅
         </h1>
         <p className="text-roast-dark text-xl mb-8">

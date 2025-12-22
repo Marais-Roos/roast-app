@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/dashboard'
 
@@ -11,18 +11,35 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
+      // Get the proper origin for redirect
       const forwardedHost = request.headers.get('x-forwarded-host')
-      const isLocalEnv = process.env.NODE_ENV === 'development'
-      if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
+      const forwardedProto = request.headers.get('x-forwarded-proto')
+      
+      let redirectUrl
+      if (forwardedHost) {
+        // Production (Vercel)
+        redirectUrl = `${forwardedProto || 'https'}://${forwardedHost}${next}`
       } else {
-        return NextResponse.redirect(`${origin}${next}`)
+        // Local development
+        const origin = request.headers.get('origin') || 'http://localhost:3000'
+        redirectUrl = `${origin}${next}`
       }
+      
+      return NextResponse.redirect(redirectUrl)
     }
   }
 
   // If there's an error or no code, redirect to login with error
-  return NextResponse.redirect(`${origin}/login?error=Unable to confirm your email. Please try again.`)
+  const forwardedHost = request.headers.get('x-forwarded-host')
+  const forwardedProto = request.headers.get('x-forwarded-proto')
+  
+  let errorRedirect
+  if (forwardedHost) {
+    errorRedirect = `${forwardedProto || 'https'}://${forwardedHost}/login?error=Unable to confirm your email. Please try again.`
+  } else {
+    const origin = request.headers.get('origin') || 'http://localhost:3000'
+    errorRedirect = `${origin}/login?error=Unable to confirm your email. Please try again.`
+  }
+  
+  return NextResponse.redirect(errorRedirect)
 }
