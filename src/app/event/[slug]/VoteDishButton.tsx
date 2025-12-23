@@ -23,7 +23,7 @@ export function VoteDishButton({ dishId, currentCount }: { dishId: string; curre
       className={`px-6 py-2 rounded-lg font-bold transition ${
         voted 
           ? 'bg-gray-400 text-white cursor-not-allowed'
-          : 'bg-roast-red text-white hover:opacity-90'
+          : 'bg-red text-white hover:opacity-90'
       }`}
     >
       {voted ? '✓ Voted' : isPending ? 'Voting...' : 'Vote Yikes!'}

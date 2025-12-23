@@ -5,8 +5,8 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
   const params = await searchParams
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-roast-cream px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-xl border-2 border-roast-dark/10">
+    <main className="min-h-screen flex items-center justify-center bg-dark px-4">
+      <div className="max-w-md w-full bg-dark border-2 border-white/20 p-8 rounded-xl shadow-xl">
         {params?.success && (
           <div className="mb-6 p-4 bg-green-50 border-2 border-green-500 rounded-lg">
             <p className="text-green-800 font-bold text-center mb-2 text-xl">
@@ -26,71 +26,71 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
         
         {!params?.success && (
           <>
-            <h1 className="font-serif text-4xl text-roast-red text-center mb-2">Create Account</h1>
-            <p className="text-center text-roast-dark mb-8">Start hosting your own Roast Events</p>
+            <h1 className="font-headings text-4xl text-red text-center mb-2">Create Account</h1>
+            <p className="text-center text-white mb-8">Start hosting your own Roast Events</p>
 
             <form className="flex flex-col gap-4">
               <label className="flex flex-col gap-1">
-                <span className="font-bold text-sm text-roast-dark">Full Name</span>
+                <span className="font-bold text-sm text-white">Full Name</span>
                 <input 
                   name="name" 
                   type="text" 
                   required 
                   placeholder="John Doe"
-                  className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+                  className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
                 />
               </label>
 
               <label className="flex flex-col gap-1">
-                <span className="font-bold text-sm text-roast-dark">Email</span>
+                <span className="font-bold text-sm text-white">Email</span>
                 <input 
                   name="email" 
                   type="email" 
                   required 
                   placeholder="your@email.com"
-                  className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+                  className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
                 />
               </label>
               
               <label className="flex flex-col gap-1">
-                <span className="font-bold text-sm text-roast-dark">Password</span>
+                <span className="font-bold text-sm text-white">Password</span>
                 <input 
                   name="password" 
                   type="password" 
                   required 
                   placeholder="Min. 6 characters"
-                  className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+                  className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
                 />
               </label>
 
               <label className="flex flex-col gap-1">
-                <span className="font-bold text-sm text-roast-dark">Confirm Password</span>
+                <span className="font-bold text-sm text-white">Confirm Password</span>
                 <input 
                   name="confirmPassword" 
                   type="password" 
                   required 
                   placeholder="Re-enter your password"
-                  className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+                  className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
                 />
               </label>
 
               {params?.error && (
-                <p className="text-roast-red text-sm text-center bg-roast-cream p-2 rounded border border-roast-red/20">
+                <p className="text-red text-sm text-center bg-red/10 p-2 rounded border border-red/40">
                   {params.error}
                 </p>
               )}
 
               <button 
                 formAction={signup} 
-                className="w-full bg-roast-red text-white font-bold py-3 rounded-lg hover:opacity-90 transition mt-2"
+                className="w-full bg-red text-white font-bold py-3 rounded-lg hover:opacity-90 transition mt-2"
               >
                 Create Account
               </button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-roast-dark">
+            <div className="mt-6 text-center text-sm text-white">
               Already have an account?{' '}
-              <Link href="/login" className="font-bold text-roast-red hover:underline">
+              <Link href="/login" className="font-bold text-red hover:underline">
                 Log in
               </Link>
             </div>

@@ -35,46 +35,46 @@ export function AddDishForm({ eventId, eventSlug }: { eventId: string; eventSlug
   }
 
   return (
-    <form action={createDish.bind(null, eventId, eventSlug)} className="p-6 bg-roast-cream rounded-lg">
-      <h3 className="font-bold text-xl mb-4 text-roast-dark">Add New Dish</h3>
+    <form action={createDish.bind(null, eventId, eventSlug)} className="p-6 bg-mint rounded-lg">
+      <h3 className="font-bold text-xl mb-4 text-white">Add New Dish</h3>
       
       <div className="flex flex-col gap-4">
         <label className="flex flex-col gap-1">
-          <span className="font-bold text-sm text-roast-dark">Chef Name</span>
+          <span className="font-bold text-sm text-white">Chef Name</span>
           <input
             name="chef_name"
             type="text"
             required
             placeholder="Who made this?"
-            className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+            className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
           />
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="font-bold text-sm text-roast-dark">Dish Name</span>
+          <span className="font-bold text-sm text-white">Dish Name</span>
           <input
             name="dish_name"
             type="text"
             required
             placeholder="What is this creation?"
-            className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+            className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
           />
         </label>
 
         <div className="flex flex-col gap-2">
-          <span className="font-bold text-sm text-roast-dark">Dish Photo</span>
+          <span className="font-bold text-sm text-white">Dish Photo</span>
           <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
             capture="environment"
             onChange={handleImageUpload}
-            className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+            className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
           />
-          <p className="text-xs text-roast-dark/60">Take a photo or upload from gallery</p>
+          <p className="text-xs text-white/60">Take a photo or upload from gallery</p>
           
           {uploading && (
-            <p className="text-sm text-roast-sage">Uploading image...</p>
+            <p className="text-sm text-mint">Uploading image...</p>
           )}
           
           {error && (
@@ -93,7 +93,7 @@ export function AddDishForm({ eventId, eventSlug }: { eventId: string; eventSlug
           <button
             type="submit"
             disabled={uploading}
-            className="bg-roast-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold disabled:opacity-50"
+            className="bg-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold disabled:opacity-50"
           >
             Add Dish
           </button>

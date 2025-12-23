@@ -46,12 +46,12 @@ export default async function ManageEventPage({
   const isAdding = query?.adding === 'true'
 
   return (
-    <main className="min-h-screen bg-roast-cream p-8">
+    <main className="min-h-screen bg-dark p-8">
       <div className="max-w-4xl mx-auto">
         <Link 
           href="/dashboard" 
-          className="text-roast-dark hover:text-roast-red mb-6 inline-block"
-        >
+          className="text-white hover:text-red mb-6 inline-block">
+        
           ← Back to Dashboard
         </Link>
 
@@ -67,32 +67,32 @@ export default async function ManageEventPage({
           </div>
         )}
 
-        <div className="bg-white p-8 rounded-xl shadow-lg border-2 border-roast-dark/10 mb-6">
+        <div className="bg-dark border-2 border-white/20 p-8 rounded-xl shadow-lg mb-6">
           {isEditing ? (
             <form action={updateEvent.bind(null, event.id)}>
-              <h1 className="font-serif text-4xl text-roast-red mb-2">Edit Event</h1>
+              <h1 className="font-headings text-4xl text-red mb-2">Edit Event</h1>
               <div className="mb-4">
                 <label className="flex flex-col gap-1">
-                  <span className="font-bold text-sm text-roast-dark">Event Name</span>
+                  <span className="font-bold text-sm text-white">Event Name</span>
                   <input
                     name="name"
                     type="text"
                     required
                     defaultValue={event.name}
-                    className="border-2 border-roast-dark/20 p-3 rounded-lg focus:border-roast-red outline-none"
+                    className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
                   />
                 </label>
               </div>
               <div className="flex gap-2">
                 <button
                   type="submit"
-                  className="bg-roast-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
+                  className="bg-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
                 >
                   Save Changes
                 </button>
                 <Link
                   href={`/event/${slug}/manage`}
-                  className="bg-gray-300 text-roast-dark px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
+                  className="bg-gray-300 text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
                 >
                   Cancel
                 </Link>
@@ -102,11 +102,11 @@ export default async function ManageEventPage({
             <>
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h1 className="font-serif text-4xl text-roast-red mb-2">{event.name}</h1>
-                  <p className="text-roast-dark/60 mb-2">Event URL: /{event.slug}</p>
+                  <h1 className="font-headings text-4xl text-red mb-2">{event.name}</h1>
+                  <p className="text-white/60 mb-2">Event URL: /{event.slug}</p>
                   <Link 
                     href={`/event/${slug}`}
-                    className="text-roast-sage hover:underline"
+                    className="text-mint hover:underline"
                     target="_blank"
                   >
                     View Public Page →
@@ -115,7 +115,7 @@ export default async function ManageEventPage({
                 <div className="flex gap-2">
                   <Link
                     href={`/event/${slug}/manage?editing=true`}
-                    className="bg-roast-sage text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+                    className="bg-mint text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
                   >
                     Edit
                   </Link>
@@ -130,7 +130,7 @@ export default async function ManageEventPage({
           <div className="mb-6">
             <Link
               href={`/event/${slug}/manage?adding=true`}
-              className="bg-roast-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
+              className="bg-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
             >
               + Add Dish
             </Link>
@@ -142,19 +142,19 @@ export default async function ManageEventPage({
             <AddDishForm eventId={event.id} eventSlug={event.slug} />
             <Link
               href={`/event/${slug}/manage`}
-              className="inline-block mt-4 text-roast-dark hover:text-roast-red"
+              className="inline-block mt-4 text-white hover:text-red"
             >
               ← Cancel
             </Link>
           </div>
         )}
 
-        <div className="bg-white p-8 rounded-xl shadow-lg border-2 border-roast-dark/10">
-          <h2 className="font-serif text-2xl text-roast-dark mb-4">Dishes</h2>
+        <div className="bg-dark border-2 border-white/20 p-8 rounded-xl shadow-lg">
+          <h2 className="font-headings text-2xl text-white mb-4">Dishes</h2>
           {dishes && dishes.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {dishes.map((dish) => (
-                <div key={dish.id} className="p-4 bg-roast-cream rounded-lg border-2 border-roast-dark/10">
+                <div key={dish.id} className="p-4 bg-mint rounded-lg border-2 border-white/20">
                   {dish.image_url && (
                     <img 
                       src={dish.image_url} 
@@ -164,9 +164,9 @@ export default async function ManageEventPage({
                   )}
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="font-bold text-lg text-roast-dark">{dish.dish_name}</h3>
-                      <p className="text-sm text-roast-dark/60">by {dish.chef_name}</p>
-                      <p className="text-roast-red font-bold mt-2">👎 {dish.yikes_count || 0} Yikes</p>
+                      <h3 className="font-bold text-lg text-white">{dish.dish_name}</h3>
+                      <p className="text-sm text-white/60">by {dish.chef_name}</p>
+                      <p className="text-red font-bold mt-2">👎 {dish.yikes_count || 0} Yikes</p>
                     </div>
                     <DeleteDishButton dishId={dish.id} dishName={dish.dish_name} eventSlug={event.slug} />
                   </div>
@@ -174,7 +174,7 @@ export default async function ManageEventPage({
               ))}
             </div>
           ) : (
-            <p className="text-roast-dark/70 text-center py-8">
+            <p className="text-white/70 text-center py-8">
               No dishes yet. Add the first dish to start the roast!
             </p>
           )}
