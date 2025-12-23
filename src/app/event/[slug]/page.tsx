@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { VoteDishButton } from './VoteDishButton'
 import Image from 'next/image'
+import { Vote } from 'lucide-react'
 
 export default async function PublicEventPage({ params }: { params: Promise<{ slug: string }> }) {
   const supabase = await createClient()
@@ -40,98 +41,113 @@ export default async function PublicEventPage({ params }: { params: Promise<{ sl
   return (
     <main className="min-h-screen bg-dark">
       {/* Header */}
-      <header className="bg-dark border-b-2 border-white/20 py-6 px-8">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <div>
-            <h1 className="font-headings font-extrabold text-4xl text-white mb-1">{event.name}</h1>
-            <p className="text-white/60 text-sm">Vote for the worst dish!</p>
+      <header className="bg-dark border-b-2 border-white/20 py-6 px-8 flex flex-col items-center gap-4">
+        <div className='relative w-32 h-9 md:w-40 md:h-12 lg:w-54 lg:h-16'>
+          <Image src='/Logo horizontal.png' alt='Smukkel Smul Logo' fill className='object-contain'/>
+        </div>
+        <div className="max-w-4xl mx-auto flex justify-start items-center gap-6">
+          <div className='flex flex-col items-center'>
+            <h1 className="font-headings font-extrabold text-3xl md:text-4xl lg:text-5xl text-white mb-1">{event.name}</h1>
+            <p className="text-white/60 text-sm">Stem vir jou gunsteling!</p>
           </div>
           {isOwner && (
             <Link
               href={`/event/${slug}/manage`}
               className="bg-dark text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
             >
-              Manage Event
+              Bestuur byeenkoms
             </Link>
           )}
         </div>
       </header>
 
       {/* Main content */}
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto px-4 md:py-12 mt-16">
         {/* Live Standings */}
         {standingsDishes && standingsDishes.length > 0 && (
           <div className="mb-12">
             <h2 className="font-headings font-bold text-3xl text-white mb-6 text-center">
-              Live Standings
+              Telbord
             </h2>
-            <div className="bg-dark border-2 border-white/20 p-6 rounded-xl shadow-lg">
+            <div className="bg-dark border-2 border-white/20 p-4 md:p-5 lg:p-6 rounded-xl shadow-lg">
               <div className="space-y-3">
-                {standingsDishes.map((dish, index) => (
-                  <div 
-                    key={dish.id} 
-                    className={`flex items-center justify-between p-4 rounded-lg ${
-                      index === standingsDishes.length - 1 
-                        ? 'bg-red/10 border-2 border-red/50' 
-                        : 'bg-green/20 border-2 border-mint/20'
-                    }`}
-                  >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className={`text-2xl font-bold ${
-                        index === standingsDishes.length - 1 
-                          ? 'text-red' 
-                          : 'text-white/40'
-                      }`}>
-                        {index === standingsDishes.length - 1 ? '💩' : `#${index + 1}`}
-                      </div>
-                      {dish.image_url && (
-                        <img 
-                          src={dish.image_url} 
-                          alt={dish.dish_name}
-                          className="w-16 h-16 object-cover rounded-lg"
-                        />
-                      )}
-                      <div>
-                        <h3 className="font-bold text-lg text-white">{dish.dish_name}</h3>
-                        <p className="text-sm text-white/60">by {dish.chef_name}</p>
+                {standingsDishes.map((dish, index) => {
+                  const isFirst = index === 0
+                  const isLast = index === standingsDishes.length - 1
+                  const borderColor = isFirst 
+                    ? 'border-green/70' 
+                    : isLast 
+                      ? 'border-red/30' 
+                      : 'border-white/20'
+                  
+                  return (
+                    <div 
+                      key={dish.id} 
+                      className={`flex items-center p-4 md:p-5 lg:p-6 rounded-lg border ${borderColor}`}
+                    >
+                      <div className="flex items-center gap-4 md:gap-5 lg:gap-6 flex-1">
+                        <div className="text-lg md:text-2xl lg:text-3xl font-bold text-white/40">
+                          #{index + 1}
+                        </div>
+                        {dish.image_url && (
+                          <div className='relative aspect-3/4 h-21 md:h-32 lg:h-40 overflow-hidden rounded-lg'>
+                            <Image
+                              src={dish.image_url} 
+                              alt={dish.dish_name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between flex-1 gap-3 lg:gap-4">
+                          <div>
+                            <h3 className="font-headings font-bold text-lg md:text-xl lg:text-2xl text-white">{dish.dish_name}</h3>
+                            <p className="text-sm md:text-base lg:text-lg text-white/60">{dish.chef_name}</p>
+                          </div>
+                          <div className="flex items-center gap-2 font-bold text-sm md:text-base lg:text-lg text-white">
+                            <Vote className="w-5 h-5"/>
+                            {dish.yikes_count || 0} Stemme
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className={`font-bold text-xl ${
-                      index === standingsDishes.length - 1 
-                        ? 'text-red' 
-                        : 'text-white'
-                    }`}>
-                      👎 {dish.yikes_count || 0}
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>
         )}
 
         {/* Voting Grid */}
-        <h2 className="font-headings text-3xl text-white mb-6 text-center">
-          Cast Your Vote
+        <h2 className="font-headings font-bold text-3xl text-white mb-6 text-center">
+          Maak Jou Stem
         </h2>
         {dishes && dishes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
             {dishes.map((dish) => (
-              <div key={dish.id} className=" bg-dark border-2 border-white/20 p-6 rounded-xl shadow-lg">
+              <div key={dish.id} className="p-4 bg-dark border-2 border-white/20 rounded-xl shadow-lg overflow-hidden">
                 {dish.image_url && (
-                  <img 
-                    src={dish.image_url} 
-                    alt={dish.dish_name}
-                    className="w-full h-48 object-cover rounded-lg mb-4"
-                  />
-                )}
-                <h3 className="font-bold text-2xl text-white mb-2">{dish.dish_name}</h3>
-                <p className="text-white/60 mb-4">by {dish.chef_name}</p>
-                
-                <div className="flex items-center justify-between">
-                  <div className="text-red font-bold text-xl">
-                    👎 {dish.yikes_count || 0} Yikes
+                  <div className='relative aspect-3/4 w-full overflow-hidden rounded-lg mb-4'>
+                    <Image
+                      src={dish.image_url} 
+                      alt={dish.dish_name}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
+                )}
+                <div>
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="font-bold text-2xl text-white mb-1">{dish.dish_name}</h3>
+                      <p className="text-white/60">{dish.chef_name}</p>
+                    </div>
+                    <div className="flex items-center gap-1 text-yellow font-bold text-lg">
+                      <Vote className="w-5 h-5"/>
+                      <span>{dish.yikes_count || 0}</span>
+                    </div>
+                  </div>
+                  
                   <VoteDishButton dishId={dish.id} currentCount={dish.yikes_count || 0} />
                 </div>
               </div>

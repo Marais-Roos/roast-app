@@ -1,6 +1,7 @@
 'use client'
 
 import { deleteEvent } from '@/app/dashboard/actions'
+import { Trash2 } from 'lucide-react'
 
 export function DeleteEventButton({ eventId, eventSlug, eventName }: { eventId: string; eventSlug: string; eventName: string }) {
   return (
@@ -12,9 +13,10 @@ export function DeleteEventButton({ eventId, eventSlug, eventName }: { eventId: 
             e.preventDefault()
           }
         }}
-        className="bg-red-600 text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+        className="bg-red/20 text-red px-4 py-2 rounded-lg hover:opacity-90 transition border-[0.5] border-red cursor-pointer"
       >
-        Delete
+        <Trash2 className="w-4 h-4 inline-block mr-2" />
+        Verwyder
       </button>
     </form>
   )

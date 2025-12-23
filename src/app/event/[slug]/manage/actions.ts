@@ -131,3 +131,47 @@ export async function deleteDish(dishId: string, eventSlug: string) {
   revalidatePath(`/event/${eventSlug}/manage`)
   redirect(`/event/${eventSlug}/manage?success=Dish deleted successfully`)
 }
+
+export async function updateDish(dishId: string, eventSlug: string, formData: FormData) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    redirect('/login')
+  }
+
+  // Verify user owns this dish's event
+  const { data: dish } = await supabase
+    .from('dishes')
+    .select('events(user_id, slug)')
+    .eq('id', dishId)
+    .single()
+
+  if (!dish || (dish.events as any)?.user_id !== user.id) {
+    redirect('/dashboard?error=Unauthorized')
+  }
+
+  const dish_name = formData.get('dish_name') as string
+  const chef_name = formData.get('chef_name') as string
+  const image_url = formData.get('image_url') as string
+
+  // Update dish
+  const { error } = await supabase
+    .from('dishes')
+    .update({
+      dish_name,
+      chef_name,
+      image_url: image_url || null
+    })
+    .eq('id', dishId)
+
+  if (error) {
+    console.error('Error updating dish:', error)
+    redirect(`/event/${eventSlug}/manage?error=Failed to update dish`)
+  }
+
+  revalidatePath(`/event/${eventSlug}`)
+  revalidatePath(`/event/${eventSlug}/manage`)
+  redirect(`/event/${eventSlug}/manage?success=Dish updated successfully`)
+}

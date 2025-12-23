@@ -1,6 +1,7 @@
 'use client'
 
 import { deleteDish } from './actions'
+import { Trash2 } from 'lucide-react'
 
 export function DeleteDishButton({ dishId, dishName, eventSlug }: { dishId: string; dishName: string; eventSlug: string }) {
   return (
@@ -12,9 +13,9 @@ export function DeleteDishButton({ dishId, dishName, eventSlug }: { dishId: stri
             e.preventDefault()
           }
         }}
-        className="text-red-600 hover:text-red-800 text-sm font-bold"
+        className="cursor-pointer p-2 bg-red rounded-lg hover:opacity-90 transition"
       >
-        Delete
+        <Trash2 className="w-4 h-4 text-white" />
       </button>
     </form>
   )

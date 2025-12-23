@@ -8,8 +8,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <main className="min-h-screen flex flex-col gap-16 items-center justify-center bg-dark px-4">
       <div className='relative w-32 h-9 md:w-40 md:h-12 lg:w-54 lg:h-16'>
-          <Image src='/Logo horizontal.png' alt='Smukkel Smul Logo' fill className='object-contain'/>
-        </div>
+        <Image src='/Logo horizontal.png' alt='Smukkel Smul Logo' fill className='object-contain'/>
+      </div>
       <div className="max-w-md w-full bg-dark border-2 border-white/20 p-8 rounded-xl shadow-xl">
         
         {params?.message && (
@@ -31,7 +31,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
               type="email"
               required
               placeholder="naam@epos.com"
-              className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-mint outline-none placeholder:text-white/40"
+              className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-gold/30 outline-none placeholder:text-white/40"
             />
           </label>
           
@@ -42,7 +42,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
               type="password"
               required
               placeholder="Jou wagwoord"
-              className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-mint outline-none placeholder:text-white/40"
+              className="border-2 border-white/20 bg-dark text-white p-3 rounded-lg focus:border-gold/30 outline-none placeholder:text-white/40"
             />
           </label>
 
@@ -54,7 +54,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
 
           <button 
             formAction={login} 
-            className="w-full bg-gold text-white font-bold py-3 rounded-lg hover:opacity-90 transition mt-2"
+            className="w-full bg-gold text-white font-bold py-3 rounded-lg hover:opacity-90 transition mt-2 cursor-pointer"
           >
             Teken In
           </button>

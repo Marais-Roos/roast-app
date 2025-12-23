@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { updateEvent } from '@/app/dashboard/actions'
 import { DeleteEventButton } from './DeleteEventButton'
 import { AddDishForm } from './AddDishForm'
-import { DeleteDishButton } from './DeleteDishButton'
+import { DishCard } from './DishCard'
+import { ChevronLeft, ChevronRight, Pencil, Trash2, Plus } from 'lucide-react'
 
 export default async function ManageEventPage({ 
   params,
@@ -46,13 +47,13 @@ export default async function ManageEventPage({
   const isAdding = query?.adding === 'true'
 
   return (
-    <main className="min-h-screen bg-dark p-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="min-h-screen bg-dark p-6 md:p-12 lg:p-20">
+      <div className="w-full lg:max-w-7xl mx-auto">
         <Link 
           href="/dashboard" 
-          className="text-white hover:text-red mb-6 inline-block">
-        
-          ← Back to Dashboard
+          className="text-gold hover:text-gold/80 mb-6 inline-block">
+          <ChevronLeft className="w-4 h-4 inline-block mr-2" />
+          Terug na Paneel
         </Link>
 
         {query?.error && (
@@ -67,57 +68,59 @@ export default async function ManageEventPage({
           </div>
         )}
 
-        <div className="bg-dark border-2 border-white/20 p-8 rounded-xl shadow-lg mb-6">
+        <div className="bg-dark shadow-lg border-b-2 border-white/20 pb-6 mb-20">
           {isEditing ? (
-            <form action={updateEvent.bind(null, event.id)}>
-              <h1 className="font-headings text-4xl text-red mb-2">Edit Event</h1>
+            <form action={updateEvent.bind(null, event.id)} className=' border-2 border-white/20 p-4 md:p-5 lg:p-6 rounded-xl '>
+              <h1 className="font-headings font-extrabold text-3xl md:text-4xl lg:text-5xl text-white mb-2">Wysig Byeenkoms</h1>
               <div className="mb-4">
                 <label className="flex flex-col gap-1">
-                  <span className="font-bold text-sm text-white">Event Name</span>
+                  <span className="font-bold text-sm text-white">Byeenkoms Naam</span>
                   <input
                     name="name"
                     type="text"
                     required
                     defaultValue={event.name}
-                    className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-red outline-none placeholder:text-white/40"
+                    className="bg-dark text-white border-2 border-white/20 p-3 rounded-lg focus:border-gold/50 outline-none placeholder:text-white/40"
                   />
                 </label>
               </div>
               <div className="flex gap-2">
                 <button
                   type="submit"
-                  className="bg-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
+                  className="bg-gold text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
                 >
-                  Save Changes
+                  Stoor
                 </button>
                 <Link
                   href={`/event/${slug}/manage`}
                   className="bg-gray-300 text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
                 >
-                  Cancel
+                  Kanselleer
                 </Link>
               </div>
             </form>
           ) : (
             <>
-              <div className="flex justify-between items-start mb-6">
+              <div className="flex flex-col md:justify-between md:flex-row items-start mb-6 gap-4">
                 <div>
-                  <h1 className="font-headings text-4xl text-red mb-2">{event.name}</h1>
-                  <p className="text-white/60 mb-2">Event URL: /{event.slug}</p>
+                  <h1 className="font-headings font-extrabold text-3xl md:text-4xl lg:text-5xl text-white mb-2">{event.name}</h1>
+                  <p className="text-white/60 mb-2">Geleentheid URL: /{event.slug}</p>
                   <Link 
                     href={`/event/${slug}`}
-                    className="text-mint hover:underline"
+                    className="text-gold hover:underline"
                     target="_blank"
                   >
-                    View Public Page →
+                    Besoek Publieke Blad
+                    <ChevronRight className="w-4 h-4 inline-block ml-2" />
                   </Link>
                 </div>
                 <div className="flex gap-2">
                   <Link
                     href={`/event/${slug}/manage?editing=true`}
-                    className="bg-mint text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+                    className="bg-gold/20 text-gold px-4 py-2 rounded-lg hover:opacity-90 transition border-[0.5] border-gold"
                   >
-                    Edit
+                    <Pencil className="w-4 h-4 inline-block mr-2" />
+                    Wysig
                   </Link>
                   <DeleteEventButton eventId={event.id} eventSlug={event.slug} eventName={event.name} />
                 </div>
@@ -126,57 +129,49 @@ export default async function ManageEventPage({
           )}
         </div>
 
-        {!isAdding && (
-          <div className="mb-6">
-            <Link
-              href={`/event/${slug}/manage?adding=true`}
-              className="bg-red text-white px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
-            >
-              + Add Dish
-            </Link>
-          </div>
-        )}
+        
 
-        {isAdding && (
-          <div className="mb-6">
-            <AddDishForm eventId={event.id} eventSlug={event.slug} />
-            <Link
-              href={`/event/${slug}/manage`}
-              className="inline-block mt-4 text-white hover:text-red"
-            >
-              ← Cancel
-            </Link>
+        <div>
+          <div className='flex justify-between mb-4'>
+            <h2 className="font-headings font-bold text-2xl md:text-3xl lg:text-4xl text-white">Disse</h2>
+            {!isAdding && (
+              <Link
+                href={`/event/${slug}/manage?adding=true`}
+                className="bg-gold text-dark flex gap-2 items-center px-6 py-2 rounded-lg hover:opacity-90 transition font-bold"
+              >
+                <Plus className='h-4 w-4'/>
+                Voeg Dis By
+              </Link>
+            )}
           </div>
-        )}
 
-        <div className="bg-dark border-2 border-white/20 p-8 rounded-xl shadow-lg">
-          <h2 className="font-headings text-2xl text-white mb-4">Dishes</h2>
-          {dishes && dishes.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {dishes.map((dish) => (
-                <div key={dish.id} className="p-4 bg-mint rounded-lg border-2 border-white/20">
-                  {dish.image_url && (
-                    <img 
-                      src={dish.image_url} 
-                      alt={dish.dish_name}
-                      className="w-full h-32 object-cover rounded-lg mb-3"
-                    />
-                  )}
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-bold text-lg text-white">{dish.dish_name}</h3>
-                      <p className="text-sm text-white/60">by {dish.chef_name}</p>
-                      <p className="text-red font-bold mt-2">👎 {dish.yikes_count || 0} Yikes</p>
-                    </div>
-                    <DeleteDishButton dishId={dish.id} dishName={dish.dish_name} eventSlug={event.slug} />
-                  </div>
-                </div>
-              ))}
+          {isAdding && (
+            <div className="mb-6">
+              <AddDishForm eventId={event.id} eventSlug={event.slug} />
+              <Link
+                href={`/event/${slug}/manage`}
+                className="inline-block mt-4 text-white hover:text-red"
+              >
+                <ChevronLeft className="w-4 h-4 inline-block mr-2" />
+                Kanselleer
+              </Link>
             </div>
-          ) : (
-            <p className="text-white/70 text-center py-8">
-              No dishes yet. Add the first dish to start the roast!
-            </p>
+          )}
+          
+          {!isAdding && (
+            <>
+              {dishes && dishes.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
+                  {dishes.map((dish) => (
+                    <DishCard key={dish.id} dish={dish} eventSlug={event.slug} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-white/70 text-center py-8">
+                  No dishes yet. Add the first dish to start the roast!
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
