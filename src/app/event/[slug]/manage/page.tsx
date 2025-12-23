@@ -168,7 +168,7 @@ export default async function ManageEventPage({
                 </div>
               ) : (
                 <p className="text-white/70 text-center py-8">
-                  No dishes yet. Add the first dish to start the roast!
+                  Geen geregte nie. Voeg die eerste dis by om die kompetisie te begin!
                 </p>
               )}
             </>

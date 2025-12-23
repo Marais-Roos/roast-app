@@ -173,7 +173,7 @@ export default async function PublicEventPage({ params }: { params: Promise<{ sl
 
       {/* Footer */}
       <footer className="text-center py-8 text-sm text-white/40">
-        Built for roasting the worst Christmas dishes 🎅
+        Gebou om die beste Kersdag gereg op te spoor. 🎅
       </footer>
     </main>
   )
