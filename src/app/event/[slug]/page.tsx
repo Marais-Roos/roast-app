@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { VoteDishButton } from './VoteDishButton'
 import Image from 'next/image'
 import { Vote } from 'lucide-react'
+import { checkIfVoted } from './actions'
 
 export default async function PublicEventPage({ params }: { params: Promise<{ slug: string }> }) {
   const supabase = await createClient()
@@ -20,6 +21,9 @@ export default async function PublicEventPage({ params }: { params: Promise<{ sl
     notFound()
   }
 
+  // Check if user has already voted
+  const { hasVoted, votedDishId } = await checkIfVoted(event.id)
+
   // Fetch dishes for this event (for voting grid)
   const { data: dishes } = await supabase
     .from('dishes')
@@ -27,12 +31,12 @@ export default async function PublicEventPage({ params }: { params: Promise<{ sl
     .eq('event_id', event.id)
     .order('yikes_count', { ascending: false })
 
-  // Fetch dishes for standings (ordered by yikes_count ascending - least to most)
+  // Fetch dishes for standings (ordered by yikes_count descending - most to least)
   const { data: standingsDishes } = await supabase
     .from('dishes')
     .select('*')
     .eq('event_id', event.id)
-    .order('yikes_count', { ascending: true })
+    .order('yikes_count', { ascending: false })
 
   // Check if current user is the owner
   const { data: { user } } = await supabase.auth.getUser()
@@ -148,7 +152,12 @@ export default async function PublicEventPage({ params }: { params: Promise<{ sl
                     </div>
                   </div>
                   
-                  <VoteDishButton dishId={dish.id} currentCount={dish.yikes_count || 0} />
+                  <VoteDishButton 
+                    dishId={dish.id} 
+                    eventId={event.id}
+                    hasVoted={hasVoted}
+                    votedDishId={votedDishId}
+                  />
                 </div>
               </div>
             ))}
